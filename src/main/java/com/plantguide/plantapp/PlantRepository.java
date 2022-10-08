@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PlantRepository extends CrudRepository<Plant, Long> {
   List<Plant> findByComName(String comName);
+  
   List<Plant> findBySciName(String sciName);
 
   List<Plant> findByMinZone(int minZone);
@@ -16,3 +17,4 @@ public interface PlantRepository extends CrudRepository<Plant, Long> {
 
   Plant findById(long id);
 }
+
