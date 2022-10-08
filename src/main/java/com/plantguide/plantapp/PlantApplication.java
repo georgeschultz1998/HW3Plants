@@ -23,31 +23,6 @@ public class PlantApplication {
   static String data = "Users Input";
   static Scanner input = new Scanner(System.in);
 
-  public static void addTree(ArrayList<Plant> plantArray) {
-    // Variables or option 1
-    String commonName, scienceName;
-    int minZone, maxZone, type;
-
-    System.out.print("Enter the common name of the plant:");
-    if (count != 0) {
-      input.nextLine();
-    } // Fixes next line issue
-    commonName = input.nextLine();
-    System.out.print("Enter the scientific name of the plant:");
-    scienceName = input.nextLine();
-    System.out.print("Enter the minimum planting zone of the plant:");
-    minZone = input.nextInt();
-    System.out.print("Enter the maximum planting zone of the plant:");
-    maxZone = input.nextInt();
-    System.out.print("Enter the type of the plant -- 0 for tree, 1 for perennial:");
-    type = input.nextInt();
-
-    // Adds the treeType data entered into the plant array.
-    plantArray.add(new Plant(commonName, scienceName, minZone, maxZone, type));
-
-    count++;
-  }
-
   public static void main(String[] args) {
     SpringApplication.run(PlantApplication.class);
   }
@@ -82,20 +57,32 @@ public class PlantApplication {
         String nameChoice;
         int typeChoice;
         int zoneChoice;
+        String commonName, scienceName;
+        int minZone, maxZone, type;
 
         // ------------------------------------------------------------------
         // if statement for when user chooses to add tree. Stores all user input in
         // variables.
         if (menuChoice == 1) {
-          if(inputCount ==0){
+          System.out.print("Enter the common name of the plant:");
+          if (inputCount == 0) {
             input.nextLine();
-            inputCount+=1;
-          }
+            inputCount++;
+          } // Fixes next line issue
 
-          addTree(plantArray);
-          Plant plant = plantArray.get(count);
-          count += 1;
-          repository.save(plant);
+          commonName = input.nextLine();
+          System.out.print("Enter the scientific name of the plant:");
+          scienceName = input.nextLine();
+          System.out.print("Enter the minimum planting zone of the plant:");
+          minZone = input.nextInt();
+          System.out.print("Enter the maximum planting zone of the plant:");
+          maxZone = input.nextInt();
+          System.out.print("Enter the type of the plant -- 0 for tree, 1 for perennial:");
+          type = input.nextInt();
+      
+          // Adds the treeType data entered into the plant array.
+          repository.save(new Plant(commonName, scienceName, minZone, maxZone, type));
+      
         }
         // ------------------------------------------------------------------
         // If statement for when user chooses to find tree by type.
