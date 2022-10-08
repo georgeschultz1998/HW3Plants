@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 
 @SpringBootApplication
-public class AccessingDataJpaApplication {
+public class PlantApplication {
 
-  private static final Logger log = LoggerFactory.getLogger(AccessingDataJpaApplication.class); 
+  private static final Logger log = LoggerFactory.getLogger(PlantApplication.class); 
 
   public static void main(String[] args) {
-    SpringApplication.run(AccessingDataJpaApplication.class);
+    SpringApplication.run(PlantApplication.class);
   }
 
   @Bean
-  public CommandLineRunner demo(PlantRepository repository) {
+  public CommandLineRunner plantSearchDemo(PlantRepository repository) {
     return (args) -> {
       // save a few customers
       repository.save(new Plant("comname1", "sciname1", 1, 1, 1));
