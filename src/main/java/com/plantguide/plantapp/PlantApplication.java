@@ -27,25 +27,31 @@ public class PlantApplication {
     SpringApplication.run(PlantApplication.class);
   }
 
+  //----------------------------------------------------------------------
   @Bean
   public CommandLineRunner plantSearchDemo(PlantRepository repository) {
     return (args) -> {
       ArrayList<Plant> plantArray = new ArrayList<>();
 
-      // save a few plants
-      repository.save(new Plant("comname1", "sciname1", 1, 1, 1));
-      repository.save(new Plant("comname2", "sciname2", 2, 2, 1));
-      repository.save(new Plant("comname3", "sciname3", 3, 3, 1));
-      repository.save(new Plant("comname4", "sciname4", 4, 4, 0));
-      repository.save(new Plant("comname5", "sciname5", 5, 5, 0));
-      repository.save(new Plant("comname6", "sciname6", 6, 6, 0));
+      // Save a few plants to database for testing purposes
+      repository.save(new Plant("comname1", "sciname1", 1, 7, 1));
+      repository.save(new Plant("comname2", "sciname2", 2, 8, 1));
+      repository.save(new Plant("comname3", "sciname3", 3, 9, 1));
+      repository.save(new Plant("comname4", "sciname4", 4, 10, 0));
+      repository.save(new Plant("comname5", "sciname5", 5, 11, 0));
+      repository.save(new Plant("comname6", "sciname6", 6, 12, 0));
 
-      // Menu Loop
+      // Start of main menu Loop that does not end until user quits.
       int menuChoice = -1;
-      int count = 0;
       int inputCount = 0;
+      String nameChoice;
+      int typeChoice;
+      int zoneChoice;
+      String commonName, scienceName;
+      int minZone, maxZone, type;
 
       while (menuChoice != 0) {
+
         // Prints the menu options and asks user to pick one.
         System.out.println("Enter command: ");
         System.out.println("0 to Quit");
@@ -54,22 +60,20 @@ public class PlantApplication {
         System.out.println("3 to Find by zone");
         System.out.println("4 to Find by name");
         menuChoice = input.nextInt();
-        String nameChoice;
-        int typeChoice;
-        int zoneChoice;
-        String commonName, scienceName;
-        int minZone, maxZone, type;
 
         // ------------------------------------------------------------------
-        // if statement for when user chooses to add tree. Stores all user input in
-        // variables.
+        // if statement for when user chooses to add tree. 
+        // Stores all user input in temp variables then saves to H2 database.
         if (menuChoice == 1) {
           System.out.print("Enter the common name of the plant:");
+
+          // Fixes next line format issue
           if (inputCount == 0) {
             input.nextLine();
             inputCount++;
-          } // Fixes next line issue
+          } 
 
+          // Stores user input into temporary variables
           commonName = input.nextLine();
           System.out.print("Enter the scientific name of the plant:");
           scienceName = input.nextLine();
@@ -79,8 +83,8 @@ public class PlantApplication {
           maxZone = input.nextInt();
           System.out.print("Enter the type of the plant -- 0 for tree, 1 for perennial:");
           type = input.nextInt();
-      
-          // Adds the treeType data entered into the plant array.
+
+          // Saves the tree using H2 database
           repository.save(new Plant(commonName, scienceName, minZone, maxZone, type));
       
         }
@@ -88,12 +92,13 @@ public class PlantApplication {
         // If statement for when user chooses to find tree by type.
         if (menuChoice == 2) {
           // fetch Plant by plant type
-          System.out.println("Enter the tree type (0 for Tree, 1 for Perennial): ");
+          System.out.println("Enter the int to match (0 for Tree, 1 for Perennial): ");
           typeChoice = input.nextInt();
           System.out.println("--------------------------------");
-          List<Plant> plantType = repository.findByPlantType(typeChoice);
-          System.out.print("Plant found with findPlantType(:" + typeChoice + ")");
-          System.out.println(plantType.toString());
+          System.out.println("Plants that might interest you:");
+          repository.findByPlantType(typeChoice).forEach(treeType -> {
+            System.out.println(treeType.toString());
+          });
           System.out.println("");
           System.out.println("--------------------------------");
         }
@@ -102,25 +107,27 @@ public class PlantApplication {
         // if statement for when user chooses to find tree by zone. Searches tree zone
         // data and compares it to user input to find matches.
         if (menuChoice == 3) {
-          System.out.println("Enter the zone of tree: ");
+          System.out.println("Enter the int to match: ");
           zoneChoice = input.nextInt();
           // fetch Plant by min zone
           System.out.println("--------------------------------");
-          List<Plant> zoneList = repository.findByMinZone(zoneChoice);
-          System.out.println("Plant found with a zone of:" + zoneChoice);
-          System.out.println(zoneList.toString());
+          System.out.println("Plants that might interest you:");
+          repository.findByMinZone(zoneChoice).forEach(zone -> {
+            System.out.println(zone.toString());
+          });
           System.out.println("");
           System.out.println("--------------------------------");
         }
 
         // ------------------------------------------------------------------
-        // Code for when user chooses to find tree name by name.
+        // if statement for when user chooses to find tree by common name. Searches tree names
+        // data and compares it to user input to find matches.
         if (menuChoice == 4) {
-          System.out.println("Enter the name of tree: ");
+          System.out.println("Enter the string to match: ");
           input.nextLine();
           nameChoice = input.nextLine();
           System.out.println("--------------------------------");
-          System.out.println("Plant found that have the name : " + nameChoice);
+          System.out.println("Plants that might interest you:");
           repository.findByComName(nameChoice).forEach(comname -> {
             System.out.println(comname.toString());
           });
@@ -129,8 +136,11 @@ public class PlantApplication {
         }
       }
       input.close();
+      //----------------------------------------------------------------------
 
-      // Testing code.... 
+
+      //----------------------------------------------------------------------
+      // NOT REQUIRED - Testing code.... 
       // fetch all plants
       System.out.println("********************************");
       System.out.println("--------------------------------");
@@ -157,6 +167,7 @@ public class PlantApplication {
       });
       System.out.println("");
       System.out.println("--------------------------------");
+      //----------------------------------------------------------------------
 
     };
   }
