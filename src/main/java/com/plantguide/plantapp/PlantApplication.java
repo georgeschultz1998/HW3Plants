@@ -48,89 +48,6 @@ public class PlantApplication {
     count++;
   }
 
-  public static String typeSearch(ArrayList<Plant> plantArray) {
-    // Variable for option 2 user input
-    int typeMatch;
-    result = "";
-
-    System.out.print("Enter the type int to match (0 for Tree or 1 for Perennial): ");
-    typeMatch = input.nextInt();
-    System.out.println("Plants that might interest you:");
-
-    // Searches all trees to find trees that match the type entered then prints
-    // them.
-    for (Plant plant : plantArray) {
-      if (plant.getPlantType() == typeMatch) {
-        // If statement used to convert type 0/1 to TREE or PERENNIAL word as example
-        // did.
-        if (plant.getPlantType() == 0) {
-          strType = type0;
-        } else {
-          strType = type1;
-        }
-        // Prints out tree in the same format example in directions did.
-        result += (plant.getComName() + "(" + plant.getSciName() + "): " + strType + ", zones " + plant.getMinZone()
-            + "-" + plant.getMaxZone() + "\n");
-      }
-    }
-    return result;
-  }
-
-  public static String zoneSearch(ArrayList<Plant> plantArray) {
-    // Variable for option 3 user input
-    int zoneMatch;
-    result = "";
-
-    System.out.print("Enter the zone int to match (Ex: Entering 9 searches for zone 9 trees.): ");
-    zoneMatch = input.nextInt();
-    System.out.println("Plants that might interest you:");
-    // Searches all trees to find trees that match the zone entered then prints
-    // them.
-    for (Plant plant : plantArray) {
-      // If statement used to convert type 0/1 to TREE or PERENNIAL word as example
-      // did.
-      if (plant.getMinZone() <= zoneMatch && zoneMatch <= plant.getMaxZone()) {
-        if (plant.getPlantType() == 0) {
-          strType = type0;
-        } else {
-          strType = type1;
-        }
-        // Prints out tree in the same format example in directions did.
-        result += (plant.getComName() + "(" + plant.getSciName() + "): " + strType + ", zones " + plant.getMinZone()
-            + "-" + plant.getMaxZone() + "\n");
-      }
-    }
-    return result;
-  }
-
-  public static String nameSearch(ArrayList<Plant> plantArray) {
-    // Variable for option 4 user input
-    String nameMatch;
-    result = "";
-    System.out.print("Enter the string to match: ");
-    input.nextLine();
-
-    nameMatch = input.nextLine();
-    System.out.println("Plants that might interest you:");
-    // Searches all trees to find trees that match the name entered then prints
-    // them.
-    for (Plant plant : plantArray) {
-      // If statement used to convert type 0/1 to TREE or PERENNIAL word as example
-      // did.
-      if (plant.getComName() != null && plant.getComName().toUpperCase().contains(nameMatch.toUpperCase())) {
-        if (plant.getPlantType() == 0) {
-          strType = type0;
-        } else {
-          strType = type1;
-        }
-        // Prints out tree in the same format example in directions did.
-        result += (plant.getComName() + "(" + plant.getSciName() + "): " + strType + ", zones " + plant.getMinZone()
-            + "-" + plant.getMaxZone() + "\n");
-      }
-    }
-    return result;
-  }
-
   public static void main(String[] args) {
     SpringApplication.run(PlantApplication.class);
   }
@@ -151,6 +68,7 @@ public class PlantApplication {
       // Menu Loop
       int menuChoice = -1;
       int count = 0;
+      int inputCount = 0;
 
       while (menuChoice != 0) {
         // Prints the menu options and asks user to pick one.
@@ -169,6 +87,11 @@ public class PlantApplication {
         // if statement for when user chooses to add tree. Stores all user input in
         // variables.
         if (menuChoice == 1) {
+          if(inputCount ==0){
+            input.nextLine();
+            inputCount+=1;
+          }
+
           addTree(plantArray);
           Plant plant = plantArray.get(count);
           count += 1;
@@ -220,38 +143,33 @@ public class PlantApplication {
       }
       input.close();
 
-      // fetch all customers
-      log.info("********************************");
-      log.info("********************************");
-      log.info("********************************");
-      log.info("********************************");
-      log.info("********************************");
-      log.info("********************************");
-      log.info("********************************");
-      log.info("--------------------------------");
-      log.info("Plants found with findAll():");
+      // Testing code.... 
+      // fetch all plants
+      System.out.println("********************************");
+      System.out.println("--------------------------------");
+      System.out.println("Plants found with findAll():");
       for (Plant plant : repository.findAll()) {
-        log.info(plant.toString());
+        System.out.println(plant.toString());
       }
-      log.info("");
-      log.info("--------------------------------");
+      System.out.println("");
+      System.out.println("--------------------------------");
 
       // fetch an individual plant by ID
-      log.info("--------------------------------");
+      System.out.println("--------------------------------");
       Plant plant = repository.findById(1L);
-      log.info("Plant found with findById(1L):");
-      log.info(plant.toString());
-      log.info("");
-      log.info("--------------------------------");
+      System.out.println("Plant found with findById(1L):");
+      System.out.println(plant.toString());
+      System.out.println("");
+      System.out.println("--------------------------------");
 
       // fetch Plant by science name
-      log.info("--------------------------------");
-      log.info("Plant found with findSciName('sciname2'):");
+      System.out.println("--------------------------------");
+      System.out.println("Plant found with findSciName('sciname2'):");
       repository.findBySciName("sciname2").forEach(sciname2 -> {
-        log.info(sciname2.toString());
+        System.out.println(sciname2.toString());
       });
-      log.info("");
-      log.info("--------------------------------");
+      System.out.println("");
+      System.out.println("--------------------------------");
 
     };
   }
