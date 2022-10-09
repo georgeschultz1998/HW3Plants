@@ -29,6 +29,7 @@ public class Plant {
     this.minZone = minZone;
     this.maxZone = maxZone;
     this.plantType = plantType;
+    
     // Used for outputting purposes. Ensures 0 is outputted as tree and 1 is outputted as perennial.
     if (plantType == 0) {
       this.plantTypeStr = "TREE";

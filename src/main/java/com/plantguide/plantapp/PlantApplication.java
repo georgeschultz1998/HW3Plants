@@ -32,13 +32,15 @@ public class PlantApplication {
     return (args) -> {
       ArrayList<Plant> plantArray = new ArrayList<>();
 
-      // Populates H2 for testing purposes
+      // ----------------------------------------------------------------------
+      // Populates H2 database for testing purposes
       repository.save(new Plant("Redwood", "Sequoia sempervirens", 7, 9, 0));
       repository.save(new Plant("Loblolly Pine", "Pinus taeda", 6, 9, 0));
       repository.save(new Plant("Sweetgum", "Liquidambar styraciflua", 5, 9, 0));
       repository.save(new Plant("Tickseed", "Coreopsis grandiflora", 4, 10, 1));
       repository.save(new Plant("Sweet William", "Dianthus barbatus", 3, 9, 1));
       repository.save(new Plant("Bleeding Heart", "Dicentra spectabilis", 3, 9, 1));
+      // ----------------------------------------------------------------------
 
       // Variables used through program.
       int menuChoice = -1;
@@ -84,22 +86,26 @@ public class PlantApplication {
           repository.save(new Plant(commonName, scienceName, minZone, maxZone, type));
 
         }
-        // ------------------------------------------------------------------
+        // ----------------------------------------------------------------------
+
+        // ----------------------------------------------------------------------
         // If statement for when user chooses to find tree by type.
         if (menuChoice == 2) {
-          // fetch Plant by plant type
+          // Fetches all Plants based on plant type
           System.out.println("Enter the int to match (Ex: 0 for Tree, 1 for Perennial): ");
           typeChoice = input.nextInt();
           System.out.println("--------------------------------");
           System.out.println("Plants that might interest you:");
+          // Calls repository function which finds by plant type then outputs result.
           repository.findByPlantType(typeChoice).forEach(treeType -> {
             System.out.println(treeType.toString());
           });
           System.out.println("");
           System.out.println("--------------------------------");
         }
+        // ----------------------------------------------------------------------
 
-        // ------------------------------------------------------------------
+        // ----------------------------------------------------------------------
         // if statement for when user chooses to find tree by zone. Searches tree zone
         // data and compares it to user input to find matches.
         if (menuChoice == 3) {
@@ -108,14 +114,17 @@ public class PlantApplication {
           // fetch Plant by min zone
           System.out.println("--------------------------------");
           System.out.println("Plants that might interest you:");
+          // Calls repository function which finds plants that can grow within the zone
+          // specified by user.
           repository.findByMinZoneLessThanEqualAndMaxZoneGreaterThanEqual(zoneChoice, zoneChoice).forEach(zone -> {
             System.out.println(zone.toString());
           });
           System.out.println("");
           System.out.println("--------------------------------");
         }
+        // ----------------------------------------------------------------------
 
-        // ------------------------------------------------------------------
+        // ----------------------------------------------------------------------
         // if statement for when user chooses to find tree by common name. Searches tree
         // names
         // data and compares it to user input to find matches.
@@ -125,15 +134,19 @@ public class PlantApplication {
           nameChoice = input.nextLine();
           System.out.println("--------------------------------");
           System.out.println("Plants that might interest you:");
+          // Calls repository function which finds plants based on the upper case version
+          // of their common name. Converts user input to upper case as well so original
+          // casing of input or common name does not matter.
           repository.findByComNameUpperCaseContains(nameChoice.toUpperCase()).forEach(comname -> {
             System.out.println(comname.toString());
           });
           System.out.println("");
           System.out.println("--------------------------------");
         }
+        // ----------------------------------------------------------------------
 
+        // ----------------------------------------------------------------------
         if (menuChoice == 5) {
-          // ----------------------------------------------------------------------
           // fetch all plants
           System.out.println("--------------------------------");
           System.out.println("Plants that might interest you:");
@@ -142,11 +155,10 @@ public class PlantApplication {
           }
           System.out.println("");
           System.out.println("--------------------------------");
-          // ----------------------------------------------------------------------
         }
+        // ----------------------------------------------------------------------
       }
       input.close();
-      // ----------------------------------------------------------------------
     };
   }
 
