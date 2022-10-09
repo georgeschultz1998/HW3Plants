@@ -23,11 +23,13 @@ public class Plant {
 
   public Plant(String comName, String sciName, int minZone, int maxZone, int plantType) {
     this.comName = comName;
+    // Used for searching/matching purposes.Ensures user input can easily match com name regardless of casing by making both input and common name upper case.
     this.comNameUpperCase = comName.toUpperCase();
     this.sciName = sciName;
     this.minZone = minZone;
     this.maxZone = maxZone;
     this.plantType = plantType;
+    // Used for outputting purposes. Ensures 0 is outputted as tree and 1 is outputted as perennial.
     if (plantType == 0) {
       this.plantTypeStr = "TREE";
     } else if (plantType == 1) {

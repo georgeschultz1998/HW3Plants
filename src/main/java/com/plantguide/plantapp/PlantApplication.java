@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class PlantApplication {
@@ -41,15 +40,15 @@ public class PlantApplication {
       repository.save(new Plant("Sweet William", "Dianthus barbatus", 3, 9, 1));
       repository.save(new Plant("Bleeding Heart", "Dicentra spectabilis", 3, 9, 1));
 
-      // Start of main menu Loop that does not end until user quits.
+      // Variables used through program.
       int menuChoice = -1;
-      int inputCount = 0;
       String nameChoice;
       int typeChoice;
       int zoneChoice;
       String commonName, scienceName;
       int minZone, maxZone, type;
 
+      // Start of main menu Loop that does not end until user quits (Enters 0).
       while (menuChoice != 0) {
 
         // Prints the menu options and asks user to pick one.
@@ -148,7 +147,6 @@ public class PlantApplication {
       }
       input.close();
       // ----------------------------------------------------------------------
-
     };
   }
 
